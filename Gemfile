@@ -1,0 +1,8 @@
+gem 'colorize'
+gem 'sqlite3'
+gem 'gdbm'
+gem 'gosu'
+gem 'activerecord'
+gem 'require_all'
+gem 'launchy'
+gem 'byebug'
