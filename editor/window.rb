@@ -1,4 +1,5 @@
-module Editor
+module RRPG
+        
     
     # This is the main Window class where all the magic happens
     class Window < Gosu::Window
@@ -20,47 +21,43 @@ module Editor
             @font[:lg] = Gosu::Font.new(($font_height * 1.5).to_i)
             # @states = {}
             # @states = create_states('./states/editor.yml')
-            @states= {
-                start_menu: Editor::State.new(
-                    self,
-                    entities: [
-                        Editor::Entity::UI::Menu.new(
-                            32,64,20,
-                            menu_entries: [
-                                Editor::Entity::UI::MenuEntry.new('New Game', proc { System.state_update(:new_game) }),
-                                Editor::Entity::UI::MenuEntry.new('Load Game', proc { System.state_update(:start_menu) }),
-                                Editor::Entity::UI::MenuEntry.new('Exit', proc { System.exit_game })
-                            ]
-                        )
-                    ]
-                ),
-                new_game: Editor::State.new(
-                    self,
-                    entities: [
-                        Editor::Entity::UI::Menu.new(
-                            32,64,20,
-                            menu_entries: [
-                                Editor::Entity::UI::MenuEntry.new('Enter Name', proc { System.puts_window })
-                            ]
-                        )
-                    ]
-                )
-            }
+            @states = {}
+            @state
+            @previous_state
+        end
 
+        def show
             @state = @states[:start_menu]
             @previous_state = @state
+            super
+        end
+
+        def create_state(state)
+            @states[state] = state
+        end
+
+        def create_states(script)
+            require("./data/apps/#{script}")
         end
 
         # def create_states(file)
         #     states_yaml = YAML.load_file(file)
         #     states_yaml.each do |state, entities|
 
-        #         self.states[state] = Editor::State.new(self, state, entities['entities'])
+        #         self.states[state] = State.new(self, state, entities['entities'])
 
         #     end
         # end
 
+        def button_up(id)
+            @state.button_up(id)
+        end
+
         def button_down(id)
+            case id
+                when Gosu::KbQ
+                    exit(0)
+            end 
             @state.button_down(id)
 
             # case id
@@ -100,7 +97,8 @@ module Editor
                 z = 0,
                 mode = :default
             )
-
+            @font[:md].draw("#{@state.to_s}",16,16,2000)
+            @font[:md].draw("Entities: #{@state.entities.to_s}",16,32,2000)
             @state.draw
         end
     end

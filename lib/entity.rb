@@ -1,4 +1,5 @@
-module Editor
+module RRPG
+        
     module Entity
     end
 end

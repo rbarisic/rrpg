@@ -1,8 +1,9 @@
 # This is an ordinary list menu
-module Editor
+module RRPG
+        
     module Entity
         module UI
-            class Menu < Editor::Entity::Base
+            class Menu < RRPG::Entity::Widget
                 def initialize(x, y, z, menu_entries: [])
                     super(x,y,z)
                     @menu_entries = menu_entries # menu_entries
@@ -39,6 +40,11 @@ module Editor
                     end
                 end
 
+                def update
+                     # animate(self) if @animation #...*hint hint*
+                    animate
+                end
+
                 def draw
                     @menu_entries.each_with_index do |item, index|
                         $window.font[:md].draw(item.text.to_s, @x + 32 + 8, @y + ($window.font[:md].height + 8) * index + 32, @z)
@@ -48,6 +54,24 @@ module Editor
 
                     $window.font[:lg].draw("Ruby RPG - Editor", 32, 32, 32) if true
                 end
+
+
+                def pre
+                    super
+                    @x = -$wwidth / 2
+                    # @y = -200
+                end
+
+                def animate
+                    unless @x == @x_start
+                        @x += Math.sqrt( (@x_start - @x) * (@x_start - @x) / 10 )
+                    end
+
+                    # unless @y == @y_start
+                    #     @y += Math.sqrt( (@y_start - @y) * (@y_start - @y) / 10 )
+                    # end
+                end
+
             end
 
             class MenuEntry

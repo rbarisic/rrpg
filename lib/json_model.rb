@@ -1,4 +1,5 @@
-module Editor
+module RRPG
+        
     module Model
         class JSON
             def initialize(*args)

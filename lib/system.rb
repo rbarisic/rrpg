@@ -1,4 +1,5 @@
-module Editor
+module RRPG
+        
     # This class controls Low-Level Actions for the Game Engine.
     class System
         

@@ -1,6 +1,7 @@
-module Editor
+module RRPG
+        
     module Model
-        class Game < Editor::Model::JSON
+        class Game < RRPG::Model::JSON
             attr_accessor :attrs
 
             def initialize(name: 'Untitled')
